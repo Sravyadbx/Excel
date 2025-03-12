@@ -1,3 +1,5 @@
+
+
 import {
   CallStatusApi,
   CallGenReportApi,
@@ -21,7 +23,7 @@ const checkStatusOfReportGenerationController = async (req, res) => {
     report_id,
     timeOut,
     tokens,
-    range,
+    range, 
     role_id,
     requestId,
     pushNotifuSubscription,
@@ -30,7 +32,7 @@ const checkStatusOfReportGenerationController = async (req, res) => {
     return res.status(400).send("Request ID is required");
   }
   activeRequests.set(requestId, res);
-  const timeLimit = timeOut || 20000;
+  const timeLimit = timeOut || 100000;
   console.log(tokens);
 
   tokens = JSON.parse(tokens);

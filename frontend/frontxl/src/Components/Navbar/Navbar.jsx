@@ -80,6 +80,7 @@ function Navbar({ navbarTitle }) {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("consent");
     localStorage.removeItem("userId")
+    localStorage.removeItem("isAdmin");
     setOpen(false);
     navigate("/");
   };

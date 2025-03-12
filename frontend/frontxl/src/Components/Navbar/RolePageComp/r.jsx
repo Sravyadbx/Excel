@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setshowLoad, setStartCell } from "../../../Redux/Slices/UserSlice/userSlice";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios';
 import {
   handelCheckStatusApi,
   loginOauthApi,
@@ -28,7 +28,8 @@ function RolePageDataDisplayComp({userData}) {
   const dispatch = useDispatch();
   const [inputCell, setInputCell] = useState(startCell || "A1");
   const [isValidCell, setIsValidCell] = useState(true);
-  const [refreshButtonClicked, setRefreshButtonClicked] = useState(false);
+  const [status, setStatus] = useState("Idle");
+  const [requestId, setRequestId] = useState(null);
   const [errorMessage , setErrorMessage] = useState("")
   const [showConsentPopup, setShowConsentPopup] = useState(false);
 
@@ -52,12 +53,15 @@ function RolePageDataDisplayComp({userData}) {
     let result;
     
     try {
+      const newRequestId = `req-${Date.now()}`; // Generate a unique request ID
+      setRequestId(newRequestId);
       if (tokens) {
         result = await dispatch(
           handelCheckStatusApi({
            selectedReportData,
             startCell: inputCell,
             role_id: finalSelectedRoleData.role_id,
+           requestId : newRequestId
           })
         ).unwrap();
       } else if (finalSelectedRoleData) {
@@ -93,8 +97,26 @@ function RolePageDataDisplayComp({userData}) {
     } catch (error) {
       setErrorMessage(error.message || "Something went wrong!"); // Handle unexpected errors
     }
-    setRefreshButtonClicked(true);
+    finally {
+      setRequestId(null); // Reset the request ID
+    }
   }
+
+
+  const abortLongPolling = async () => {
+    console.log("abort called")
+    dispatch(setshowLoad(false));
+    if (requestId) {
+      let pushNotifuSubscription=localStorage.getItem("pushNotifuSubscription");
+      try {
+
+        await axios.post("http://localhost:8080/abort-request", { requestId,pushNotifuSubscription });
+        setStatus("Request aborted.");
+      } catch (error) {
+        setStatus(`Error: ${error.message}`);
+      }
+    }
+  };
 
 
 
@@ -126,9 +148,10 @@ function RolePageDataDisplayComp({userData}) {
   
 
 
-  const handleStopImport = () => {
-    dispatch(setshowLoad(false));
-  };
+  // const handleStopImport = () => {
+  //   dispatch(setshowLoad(false));
+    
+  // };
 
   useEffect(() => {
     if (selectedReportData?.report_id && finalSelectedRoleData?.role_id) {
@@ -167,7 +190,7 @@ function RolePageDataDisplayComp({userData}) {
   </div>
 )} */}
 
-{showLoad && (  <StopImport handleStopImport = {handleStopImport} />
+{showLoad && (  <StopImport handleStopImport = {abortLongPolling} />
 )}
 
 
@@ -249,18 +272,3 @@ function RolePageDataDisplayComp({userData}) {
 }
 
 export default RolePageDataDisplayComp;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

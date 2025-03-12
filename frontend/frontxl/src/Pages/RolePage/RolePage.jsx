@@ -13,6 +13,7 @@ import {
   setRoleData,
   setStartCell,
   setFinalSelctedReportData,
+  setFinalSelctedRoleData,
   setSelectedReportData
 
 } from "../../Redux/Slices/UserSlice/userSlice";
@@ -36,11 +37,13 @@ function RolePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(userData.isAdmin)
+    const isAdmin = localStorage.getItem("IsAdmin");
+    // if(userData.isAdmin)
+    if(isAdmin)
     {
       const role_id="";
       const role_label="Admin";
-      dispatch(setFinalSelctedReportData({role_id,role_label}));
+      dispatch(setFinalSelctedRoleData({role_id,role_label}));
     }
     const token = localStorage.getItem("accessToken");
     console.log("token",token)
@@ -75,7 +78,10 @@ function RolePage() {
   
   useEffect(() => {
    console.log(selectedReportData)
-    if (!userData.isAdmin && selectedReportData?.report_id) {
+   const isAdmin = localStorage.getItem("isAdmin");
+    // if (!userData.isAdmin && selectedReportData?.report_id)
+    if (!isAdmin && selectedReportData?.report_id)
+       {
       console.log(selectedReportData);
       dispatch(getAllRolesForSelectedReport(selectedReportData)).then((val) => {
         setShowNoRolesAvailable(val?.payload?.data?.length === 0);
@@ -211,7 +217,7 @@ function RolePage() {
             </option>
                 ))}
               </select>
-              {selectedReportRolesData?.length>0 && (
+              { selectedReportRolesData?.length>0 && (
   <>
     {Object.keys(selectedReportData).length > 0 ? (
       <ShowRoles Roles={selectedReportRolesData} />
@@ -222,7 +228,7 @@ function RolePage() {
 )}
 
 
-              {selectedReportData?.report_id &&  (userData.isAdmin || finalSelectedRoleData?.role_id) && (
+              {selectedReportData?.report_id &&  (localStorage.getItem("isAdmin") || finalSelectedRoleData?.role_id) && (
                 <RolePageDataDisplayComp  userData={userData}/>
               )}
             </div>

@@ -273,17 +273,3 @@ function RolePageDataDisplayComp({userData}) {
 
 export default RolePageDataDisplayComp;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-

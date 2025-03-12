@@ -94,6 +94,7 @@ const userSlice = createSlice({
       console.log(action.payload);
       state.userData = action.payload?.message;
       console.log(state.userData)
+      localStorage.setItem("isAdmin",state.userData.isAdmin);
     });
 
     // builder.addCase(validateAccessTokenApi.pending, (state, action) => {
