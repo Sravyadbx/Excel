@@ -155,7 +155,7 @@ const loginOauthApi = createAsyncThunk("loginOauthApi", async (data) => {
     // let token =
     //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDQwMzAiLCJ0ZW5hbnRJZCI6IjczIiwiaWF0IjoxNzM4MDY1NDM0LCJleHAiOjE3NDU4NDE0MzR9.sP3riRyRp1MEJGmmqxnnt12WqpyVIfCb7C19C32n4C8";
 
-    const response = await fetch(`http://localhost:8080/loginUserToOAuth`, {
+    const response = await fetch(`https://excel-1-65tp.onrender.com/loginUserToOAuth`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ const callCallBackAp = createAsyncThunk("callCallBackAp", async (code) => {
     //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzMDQwMzAiLCJ0ZW5hbnRJZCI6IjczIiwiaWF0IjoxNzM4MDY1NDM0LCJleHAiOjE3NDU4NDE0MzR9.sP3riRyRp1MEJGmmqxnnt12WqpyVIfCb7C19C32n4C8";
 
     const response = await fetch(
-      `http://localhost:8080/auth/callback?code=${code}`,
+      `https://excel-1-65tp.onrender.com/auth/callback?code=${code}`,
       {
         method: "GET",
         headers: {
@@ -261,7 +261,7 @@ const handelCheckStatusApi = createAsyncThunk(
 
       if (!report_id ) return;
 
-      const response = await fetch(`http://localhost:8080/checkReportStatus`, {
+      const response = await fetch(`https://excel-1-65tp.onrender.com/checkReportStatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -291,7 +291,7 @@ const getAllSpreadSheetsApi=createAsyncThunk(
     try {
 
   
-      const response = await fetch(`http://localhost:8080/getAllSpreadSheets`, {
+      const response = await fetch(`https://excel-1-65tp.onrender.com/getAllSpreadSheets`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -313,7 +313,7 @@ const getLastUpdatedSheetTime=createAsyncThunk(
   "getLastUpdatedSheetTime",
   async (data) => {
     try {
-      const response = await fetch(`http://localhost:8080/gsheetLastUpdated`, {
+      const response = await fetch(`https://excel-1-65tp.onrender.com/gsheetLastUpdated`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
