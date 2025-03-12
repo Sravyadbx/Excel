@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import cred from "../o_auth.json"  with {type:'json'};
 
 dotenv.config();
 
@@ -16,9 +15,9 @@ const constants = {
       "https://www.googleapis.com/auth/userinfo.profile "
     ],
 
-    client_id:cred.web.client_id,
-    client_secret:cred.web.client_secret,
-    redirect_uri:cred.web.redirect_uris[0],
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_CLIENT_SECRET,
+    redirect_uri: process.env.GOOGLE_REDIRECT_URIS.split(",")[0], // Use first redirect URI
 
 
   },
